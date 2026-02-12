@@ -602,6 +602,17 @@ const otherIndexedValue = {
 } as const;
 
 export type ForeignIndexedValue = (typeof indexedValue)[keyof typeof otherIndexedValue];
+
+// Mapped type indexed by a type alias (discriminated union from registry pattern)
+type EventType = 'click' | 'hover';
+interface PayloadMap {
+  click: { x: number; y: number };
+  hover: { target: string };
+}
+export type EventUnion = {
+  [K in EventType]: { kind: K; payload: PayloadMap[K] };
+}[EventType];
+
 type Maybe<T> = T | null;
 
 export interface TypeAliasModel1 {
